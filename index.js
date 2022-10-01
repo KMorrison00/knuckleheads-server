@@ -19,7 +19,7 @@ const io = socket(server, {
 io.on('connection', (socket) => {
     socket.on('reqTurn', (data) => {
         const room = JSON.parse(data).room
-        io.to(room).emit('playerTurn', data)
+        socket.broadcast.to(room).emit('playerTurn', data)
     })
 
     socket.on('create', (room) => {
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
 
     socket.on('setDeck', (data) => {
         const room = JSON.parse(data).room
-        io.to(room).emit('deckID', data)
+        socket.broadcast.to(room).emit('deckID', data)
     })
 });
 
