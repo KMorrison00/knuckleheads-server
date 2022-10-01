@@ -22,11 +22,11 @@ io.on('connection', (socket) => {
         io.to(room).emit('playerTurn', data)
     })
 
-    socket.on('create', room => {
+    socket.on('create', (room) => {
         socket.join(room)
     })
 
-    socket.on('join', room => {
+    socket.on('join', (room) => {
         socket.join(room)
         io.to(room).emit('opponent_joined')
     })
