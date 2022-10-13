@@ -1,44 +1,44 @@
-const express = require('express')
+const express = require("express");
 
 const PORT = 4000;
-const INDEX = '/index.html';
+const INDEX = "/index.html";
 
-const app = express()
-app.use((_req, res) => res.sendFile(INDEX, { root: __dirname }))
+const app = express();
+app.use((_req, res) => res.sendFile(INDEX, { root: __dirname }));
 
-const server = app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}...`));
+const server = app.listen(PORT, () =>
+  console.log(`Listening on http://localhost:${PORT}...`)
+);
 
 // socket server
-const socket = require('socket.io');
+const socket = require("socket.io");
 const io = socket(server, {
-    cors: {
-        origin: `http://localhost:3000`
-    }
+  cors: {
+    origin: `http://localhost:3000`,
+  },
 });
 
-io.on('connection', (socket) => {
-    socket.on('reqTurn', (data) => {
-        const room = JSON.parse(data).room
-        io.to(room).emit('playerTurn', data)
-    })
+io.on("connection", (socket) => {
+  socket.on("reqTurn", (data) => {
+    const room = JSON.parse(data).room;
+    socket.to(room).emit("playerTurn", data);
+  });
 
-    socket.on('create', (room) => {
-        socket.join(room)
-    })
+  socket.on("create", (room) => {
+    socket.join(room);
+  });
 
-    socket.on('join', (room) => {
-        socket.join(room)
-        io.to(room).emit('opponent_joined')
-    })
+  socket.on("join", (room) => {
+    socket.join(room);
+    io.to(room).emit("opponent_joined");
+  });
 
-    socket.on('reqRestart', (data) => {
-        const room = JSON.parse(data).room
-        io.to(room).emit('restart')
-    })
+  socket.on("reqRestart", (room) => {
+    io.to(room).emit("restart");
+  });
 
-    socket.on('setDeck', (data) => {
-        const room = JSON.parse(data).room
-        io.to(room).emit('deckID', data)
-    })
+  socket.on("setDeck", (data) => {
+    const room = JSON.parse(data).room;
+    socket.broadcast.to(room).emit("deckID", data);
+  });
 });
-
