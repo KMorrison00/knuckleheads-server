@@ -7,15 +7,14 @@ const app = express();
 app.use((_req, res) => res.sendFile(INDEX, { root: __dirname }));
 
 const server = app.listen(PORT, () =>
-  console.log(`Listening on http://localhost:${PORT}...`)
+  console.log(`Listening on http://localhost:${PORT}`)
 );
 
 // socket server
 const socket = require("socket.io");
-const io = socket(server, {
-  cors: {
-    origin: `http://localhost:3000`,
-},});
+const io = socket(server, {cors: {
+    origin: `https://knuckleheads-game.glitch.me`,
+  },});
 
 io.on("connection", (socket) => {
   socket.on("reqTurn", (data) => {
