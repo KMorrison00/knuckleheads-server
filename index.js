@@ -1,6 +1,6 @@
 const express = require("express");
 
-const PORT = 4000;
+const PORT = process.env.PORT || 3000;
 const INDEX = "/index.html";
 
 const app = express();
@@ -12,11 +12,7 @@ const server = app.listen(PORT, () =>
 
 // socket server
 const socket = require("socket.io");
-const io = socket(server, {
-  cors: {
-    origin: `http://localhost:3000`,
-  },
-});
+const io = socket(server, {});
 
 io.on("connection", (socket) => {
   socket.on("reqTurn", (data) => {
