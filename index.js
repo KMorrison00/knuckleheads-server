@@ -12,7 +12,10 @@ const server = app.listen(PORT, () =>
 
 // socket server
 const socket = require("socket.io");
-const io = socket(server, {});
+const io = socket(server, {
+  cors: {
+    origin: `http://localhost:3000`,
+},});
 
 io.on("connection", (socket) => {
   socket.on("reqTurn", (data) => {
