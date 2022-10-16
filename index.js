@@ -1,6 +1,6 @@
 const express = require("express");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const INDEX = "/index.html";
 
 const app = express();
@@ -15,6 +15,11 @@ const socket = require("socket.io");
 const io = socket(server, {cors: {
     origin: `https://knuckleheads-game.glitch.me`,
   },});
+
+// local dev env
+// const io = socket(server, {cors: {
+//   origin: `http://localhost:3000`,
+// },});
 
 io.on("connection", (socket) => {
   socket.on("reqTurn", (data) => {
